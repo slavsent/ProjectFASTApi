@@ -104,8 +104,9 @@ def delete_post(menu_id: str, submenu_id: str, db: Session = Depends(get_db)):
     #    return {"detail": "submenu not found"}
     # else:
     submenu_query = db.query(models.SubMenu).filter(models.SubMenu.id == submenu_id)
-    if not submenu_query:
-        return {"detail": "submenu not found"}
+    submenu = db.query(models.SubMenu).filter(models.SubMenu.id == submenu_id).first()
+    if not submenu:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="submenu not found")
     update_menu = db.query(models.Menu).get(menu_id)
     update_menu.submenus_count -= 1
     submenu_in_menu = db.query(models.SubmenuInMenu).filter(models.SubmenuInMenu.submenu == submenu_id)

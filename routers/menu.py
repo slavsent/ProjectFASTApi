@@ -48,8 +48,7 @@ def update_menu(menu_id: str, payload: MenuBaseSchema, db: Session = Depends(get
     else:
         menu_query = db.query(models.Menu).get(menu_id)
         if not menu_query:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                                detail={"detail": "menu not found"})
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"detail": "menu not found"})
         else:
             menu_query.title = payload.title
             menu_query.description = payload.description
@@ -70,23 +69,26 @@ def get_read(menu_id: str, db: Session = Depends(get_db)):
         # else:
         menu = db.query(models.Menu).filter(models.Menu.id == menu_id).first()
         if not menu:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                                detail="menu not found")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="menu not found")
         menu = db.query(models.Menu).get(menu_id)
         return menu
 
 
 @router.delete('/{menu_id}')
 def delete_post(menu_id: str, db: Session = Depends(get_db)):
+    if menu_id == 'null':
+        return {"detail": "menu not found"}
+    else:
     # try:
     #    int(menu_id)
     # except ValueError:
     #    return {"detail": "menu not found"}
     # else:
-    menu_query = db.query(models.Menu).filter(models.Menu.id == menu_id)
-    if not menu_query:
-        return {"detail": "menu not found"}
-    else:
-        menu_query.delete(synchronize_session=False)
-        db.commit()
-        return {"status": True, "message": "The menu has been deleted"}
+        menu_query = db.query(models.Menu).filter(models.Menu.id == menu_id)
+        menu = db.query(models.Menu).filter(models.Menu.id == menu_id).first()
+        if not menu:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="menu not found")
+        else:
+            menu_query.delete(synchronize_session=False)
+            db.commit()
+            return {"status": True, "message": "The menu has been deleted"}

@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  test_restoran_app:
+    container_name: test_restoran_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      CONFIG_File: "config.test.yaml"
+    command: "pytest -vv"
+    networks:
+      - test_network
+
+networks:
+  test_network:
+    external:
+      name: restoran_network

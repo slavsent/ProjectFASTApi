@@ -73,6 +73,7 @@ def update_submenu(menu_id: str, submenu_id: str, dish_id: str, payload: DishBas
         return {"detail": "dish not found"}
     else:
         dish_query = db.query(models.Dish).get(dish_id)
+
         if not dish_query:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                                 detail="dish not found")
@@ -117,9 +118,9 @@ def delete_post(menu_id: str, submenu_id: str, dish_id: str, db: Session = Depen
         return {"detail": "dish not found"}
     else:
         dish_query = db.query(models.Dish).filter(models.Dish.id == dish_id)
-        if not dish_query:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                                detail="dish not found")
+        dish = db.query(models.Dish).filter(models.Dish.id == dish_id).first()
+        if not dish:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="dish not found")
         update_submenus = db.query(models.SubMenu).get(submenu_id)
         update_submenus.dishes_count -= 1
         update_menu = db.query(models.Menu).get(menu_id)
