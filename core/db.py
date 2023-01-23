@@ -5,7 +5,7 @@ from functools import lru_cache
 from typing import Generator
 from config import Settings
 
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_m"
+SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_m"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
 #SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
