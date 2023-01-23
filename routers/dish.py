@@ -21,7 +21,7 @@ def get_dish(menu_id: str, submenu_id: str, db: Session = Depends(get_db)):
     ).filter(
         models.SubmenuInMenu.menu == models.Menu.id
     ).filter(
-        models.SubMenu.id == submenu_id
+        models.SubMenu.id == models.SubmenuInMenu.id and models.SubMenu.id == submenu_id
     ).filter(
         models.DishInSubmenu.submenus == models.SubMenu.id
     ).filter(

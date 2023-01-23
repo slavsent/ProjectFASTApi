@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      CONFIG_File: "config.test.yaml"
     command: "pytest -vv"
     networks:
       - test_network

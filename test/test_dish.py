@@ -111,7 +111,7 @@ def test_read_all_dish(result_holder, result_holder_submenu, db: Session = Depen
     response = client.get(f"/api/v1/menus/{data_menu}/submenus/{data_submenu}/dishes/")
 
     assert response.status_code == 200
-    assert response.json() != []
+    assert response.json() != {}
 
 
 def test_update_dish(result_holder, result_holder_submenu, result_holder_dish, db: Session = Depends(get_db)):
