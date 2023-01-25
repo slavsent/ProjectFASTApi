@@ -12,8 +12,9 @@ from sqlalchemy_utils import create_database, database_exists
 
 testing = os.environ.get("TESTING")
 if testing:
-    # SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_pytest"
-    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_pytest"
+    #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_pytest"
+    #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_pytest"
+    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_pytest/restoran_pytest"
 
 else:
 

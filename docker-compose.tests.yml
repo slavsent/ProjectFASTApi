@@ -1,6 +1,29 @@
 version: '3.8'
 
 services:
+  restoran_db:
+    container_name: restoran_pytest
+    image: postgres:15.1-alpine
+    restart: always
+    volumes:
+      #  - ./pg-data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    ports:
+      - "5432:5432"
+    networks:
+      - another_network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: space
+      POSTGRES_DB: restoran_pytest
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -q -d restoran_m -U postgres" ]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
   test_restoran_app:
     container_name: test_restoran_app
     build:
@@ -10,12 +33,15 @@ services:
     command: "pytest -vv"
     networks:
 #      - restoran_network
-      - test_network
+#      - test_network
       - another_network
 
 networks:
-  test_network:
-    external:
-      name: restoran_network
+#  test_network:
+#    external:
+#      name: restoran_network
   another_network:
     name: another_network
+
+volumes:
+  postgres_data:
