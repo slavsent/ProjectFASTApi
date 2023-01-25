@@ -1,4 +1,9 @@
 import json
+
+import os
+
+os.environ['TESTING'] = 'True'
+
 import pytest
 from starlette.testclient import TestClient
 from fastapi import Depends

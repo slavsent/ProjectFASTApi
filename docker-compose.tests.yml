@@ -9,8 +9,10 @@ services:
     command: "pytest -vv"
     networks:
       - test_network
+      - another_network
 
 networks:
   test_network:
-    external:
       name: restoran_network
+  another_network:
+    name: another_network

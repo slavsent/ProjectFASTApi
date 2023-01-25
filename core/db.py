@@ -4,10 +4,32 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from functools import lru_cache
 from typing import Generator
 from config import Settings
+import os
+from alembic import command
+from alembic.config import Config
+from sqlalchemy_utils import create_database, database_exists
 
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_m"
+
+testing = os.environ.get("TESTING")
+if testing:
+    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_pytest"
+
+
+else:
+
+    # для docker compose
+    #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_m"
+    # для localhost
+    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_m"
+
+if not database_exists(SQLALCHEMY_DATABASE_URL):
+    create_database(SQLALCHEMY_DATABASE_URL)
+    #engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
+
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
 #SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+
+
 
 Base = declarative_base()
 
