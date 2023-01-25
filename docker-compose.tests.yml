@@ -6,13 +6,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+
     command: "pytest -vv"
     networks:
+#      - restoran_network
       - test_network
       - another_network
 
 networks:
   test_network:
+    external:
       name: restoran_network
   another_network:
     name: another_network
