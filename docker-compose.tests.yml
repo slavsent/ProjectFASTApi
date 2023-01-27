@@ -35,6 +35,9 @@ services:
 #      - restoran_network
 #      - test_network
       - another_network
+    depends_on:
+      restoran_pytest:
+        condition: service_healthy
 
 networks:
 #  test_network:
