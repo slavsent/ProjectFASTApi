@@ -12,17 +12,21 @@ from sqlalchemy_utils import create_database, database_exists
 
 testing = os.environ.get("TESTING")
 if testing:
-    #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_pytest"
+    # для локального использования
+    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_pytest"
+    # для docker  с приложением
     #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_pytest"
-    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_pytest/restoran_pytest"
+    # для docker с тестами
+    #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_pytest/restoran_pytest"
 
 else:
 
     # для docker compose
     #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_m"
     # для localhost
-    #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_m"
-    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_pytest/restoran_m"
+    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_m"
+    # для тестов в docker
+    #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_pytest/restoran_m"
 
 if not database_exists(SQLALCHEMY_DATABASE_URL):
     create_database(SQLALCHEMY_DATABASE_URL)

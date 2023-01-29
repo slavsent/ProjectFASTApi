@@ -1,0 +1,870 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Menu Restorans API",
+    "description": "Позволяет создавать несколько меню, у каждого меню может быть несколько подменю. Подменю уникальны и могут быть только у одного меню. В каждом подменю есть блюда, блюда тоже уникальны и могут быть только у одного подменю. У блюда есть название, описание и его цена. У подменю есть название описание и количество блюд, которые есть в подменю. У меню есть название, описание и сколько у меню есть подменю и сколько всего в меню блюд.",
+    "version": "0.1.0",
+    "termsOfService": "http://localhost:8000/terms/",
+    "contact": {
+      "name": "Restoran menu API",
+      "email": "ricar@mail.ru"
+    },
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "localhost:8000/api/v1/",
+      "description": "Menu restorans"
+    }
+  ],
+  "paths": {
+    "/api/v1/menus/{menu_id}/submenus/{submenu_id}/dishes/": {
+      "get": {
+        "tags": [
+          "Dish"
+        ],
+        "summary": "Get List Dishes",
+        "operationId": "get_dish_api_v1_menus__menu_id__submenus__submenu_id__dishes__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Submenu Id",
+              "type": "string"
+            },
+            "name": "submenu_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Dish"
+        ],
+        "summary": "Create Dish",
+        "operationId": "create_dish_api_v1_menus__menu_id__submenus__submenu_id__dishes__post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Submenu Id",
+              "type": "string"
+            },
+            "name": "submenu_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DishBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/menus/{menu_id}/submenus/{submenu_id}/dishes/{dish_id}": {
+      "get": {
+        "tags": [
+          "Dish"
+        ],
+        "summary": "Read Dish on Id",
+        "operationId": "get_read_api_v1_menus__menu_id__submenus__submenu_id__dishes__dish_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Submenu Id",
+              "type": "string"
+            },
+            "name": "submenu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Dish Id",
+              "type": "string"
+            },
+            "name": "dish_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Dish"
+        ],
+        "summary": "Delete Dish",
+        "operationId": "delete_post_api_v1_menus__menu_id__submenus__submenu_id__dishes__dish_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Submenu Id",
+              "type": "string"
+            },
+            "name": "submenu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Dish Id",
+              "type": "string"
+            },
+            "name": "dish_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Dish"
+        ],
+        "summary": "Update Dish",
+        "operationId": "update_dish_api_v1_menus__menu_id__submenus__submenu_id__dishes__dish_id__patch",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Submenu Id",
+              "type": "string"
+            },
+            "name": "submenu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Dish Id",
+              "type": "string"
+            },
+            "name": "dish_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DishBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/menus/{menu_id}/submenus/": {
+      "get": {
+        "tags": [
+          "Submenu"
+        ],
+        "summary": "Get List Submenus",
+        "operationId": "get_submenu_api_v1_menus__menu_id__submenus__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Submenu"
+        ],
+        "summary": "Create Submenu",
+        "operationId": "create_submenu_api_v1_menus__menu_id__submenus__post",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubMenuBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/menus/{menu_id}/submenus/{submenu_id}": {
+      "get": {
+        "tags": [
+          "Submenu"
+        ],
+        "summary": "Read Submenu on Id",
+        "operationId": "get_read_api_v1_menus__menu_id__submenus__submenu_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Submenu Id",
+              "type": "string"
+            },
+            "name": "submenu_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Submenu"
+        ],
+        "summary": "Delete Submenu",
+        "operationId": "delete_post_api_v1_menus__menu_id__submenus__submenu_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Submenu Id",
+              "type": "string"
+            },
+            "name": "submenu_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Submenu"
+        ],
+        "summary": "Update Submenu",
+        "operationId": "update_submenu_api_v1_menus__menu_id__submenus__submenu_id__patch",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          },
+          {
+            "required": true,
+            "schema": {
+              "title": "Submenu Id",
+              "type": "string"
+            },
+            "name": "submenu_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubMenuBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/menus/": {
+      "get": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Get List Menus",
+        "operationId": "get_menu_api_v1_menus__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Create Menu",
+        "operationId": "create_menu_api_v1_menus__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/menus/{menu_id}": {
+      "get": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Read Menu on Id",
+        "operationId": "get_read_api_v1_menus__menu_id__get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Delete Menu",
+        "operationId": "delete_post_api_v1_menus__menu_id__delete",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Menu"
+        ],
+        "summary": "Update Menu",
+        "operationId": "update_menu_api_v1_menus__menu_id__patch",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Menu Id",
+              "type": "string"
+            },
+            "name": "menu_id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuBaseSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/restoran": {
+      "get": {
+        "summary": "Root",
+        "operationId": "root_api_restoran_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DishBaseSchema": {
+        "title": "DishBaseSchema",
+        "required": [
+          "title",
+          "description",
+          "price"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "price": {
+            "title": "Price",
+            "type": "string"
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "MenuBaseSchema": {
+        "title": "MenuBaseSchema",
+        "required": [
+          "title",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          }
+        }
+      },
+      "SubMenuBaseSchema": {
+        "title": "SubMenuBaseSchema",
+        "required": [
+          "title",
+          "description"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
