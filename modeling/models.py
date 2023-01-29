@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, ForeignKey
+from sqlalchemy import Column, String, Integer, Text, ForeignKey, inspect
 from sqlalchemy.orm import relationship
 from uuid import uuid4
 from core.db import Base
@@ -54,5 +54,7 @@ class DishInSubmenu(Base):
     submenus = Column(UUID(as_uuid=True), ForeignKey(SubMenu.id))
     dishes = Column(UUID(as_uuid=True), ForeignKey(Dish.id), unique=True)
 
-    submenus_id = relationship(SubMenu, cascade="all, delete", backref="parent_submenu")
+    submenus_id = relationship(
+        SubMenu, cascade="all, delete", backref="parent_submenu",
+    )
     dishes_id = relationship(Dish, cascade="all, delete", backref="parent")

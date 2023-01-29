@@ -19,27 +19,29 @@ if testing:
 else:
 
     # для docker compose
-    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_m"
+    #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_m"
     # для localhost
     #SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_m"
+    SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_pytest/restoran_m"
 
 if not database_exists(SQLALCHEMY_DATABASE_URL):
     create_database(SQLALCHEMY_DATABASE_URL)
-    #engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
+    # engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
-#SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
-
+# SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
 
 Base = declarative_base()
 
+
 @lru_cache
 def create_session() -> scoped_session:
     session = scoped_session(
-        sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        sessionmaker(autocommit=False, autoflush=False, bind=engine),
     )
     return session
+
 
 def get_db() -> Generator[scoped_session, None, None]:
     session = create_session()
@@ -47,6 +49,8 @@ def get_db() -> Generator[scoped_session, None, None]:
         yield session
     finally:
         session.remove()
+
+
 """
 #SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:space@localhost/restoran_m"

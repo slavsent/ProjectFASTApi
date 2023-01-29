@@ -1,15 +1,14 @@
+from core.db import get_db
+from app import app
+from sqlalchemy.orm import Session
+from fastapi import Depends
+from starlette.testclient import TestClient
+import pytest
 import json
 
 import os
 
 os.environ['TESTING'] = 'True'
-
-import pytest
-from starlette.testclient import TestClient
-from fastapi import Depends
-from sqlalchemy.orm import Session
-from app import app
-from core.db import get_db
 
 
 @pytest.fixture(scope="module")
@@ -46,7 +45,9 @@ def test_create_submenu(result_holder, result_holder_submenu, db: Session = Depe
     client = TestClient(app)
     test_payload = {"title": "submenu 1", "description": "my submenu"}
     data_menu = result_holder[0]
-    response = client.post(f"/api/v1/menus/{data_menu}/submenus/", json=test_payload)
+    response = client.post(
+        f"/api/v1/menus/{data_menu}/submenus/", json=test_payload,
+    )
     data = response.json()['id']
     result_holder_submenu.append(data)
 
@@ -55,11 +56,12 @@ def test_create_submenu(result_holder, result_holder_submenu, db: Session = Depe
     assert response.json()["description"] == test_payload["description"]
 
 
-
 def test_create_submenu_invalid_json(result_holder, db: Session = Depends(get_db)):
     client = TestClient(app)
     data_menu = result_holder[0]
-    response = client.post(f"/api/v1/menus/{data_menu}/submenus/", json={"title": "something"})
+    response = client.post(
+        f"/api/v1/menus/{data_menu}/submenus/", json={"title": "something"},
+    )
 
     assert response.status_code == 422
 
@@ -79,7 +81,9 @@ def test_read_submenu(result_holder, result_holder_submenu, db: Session = Depend
 def test_read_submenu_incorrect_id(result_holder, db: Session = Depends(get_db)):
     client = TestClient(app)
     data_menu = result_holder[0]
-    response = client.get(f"/api/v1/menus/{data_menu}/submenus/7855f909-3be6-4a45-84ed-c72941fe2419")
+    response = client.get(
+        f"/api/v1/menus/{data_menu}/submenus/7855f909-3be6-4a45-84ed-c72941fe2419",
+    )
 
     assert response.status_code == 404
     assert response.json()["detail"] == "submenu not found"
@@ -95,22 +99,32 @@ def test_read_all_submenus(result_holder, db: Session = Depends(get_db)):
 
 
 def test_update_submenu(result_holder, result_holder_submenu, db: Session = Depends(get_db)):
-    test_update_data = {"title": "submenu 2 update", "description": "my submenu update"}
+    test_update_data = {
+        "title": "submenu 2 update",
+        "description": "my submenu update",
+    }
 
     client = TestClient(app)
     data_menu = result_holder[0]
     data = result_holder_submenu[0]
-    response = client.patch(f"/api/v1/menus/{data_menu}/submenus/{data}", json=test_update_data)
+    response = client.patch(
+        f"/api/v1/menus/{data_menu}/submenus/{data}", json=test_update_data,
+    )
 
     assert response.status_code == 200
     assert response.json()["title"] == test_update_data["title"]
 
 
 def test_update_submenu_invalid(result_holder, db: Session = Depends(get_db)):
-    test_update_data = {"title": "submenu 2 update", "description": "my submenu update"}
+    test_update_data = {
+        "title": "submenu 2 update",
+        "description": "my submenu update",
+    }
     client = TestClient(app)
     data_menu = result_holder[0]
-    response = client.patch(f"/api/v1/menus/{data_menu}/submenus/7855f909-3be6-4a45-84ed-c72941fe2419", json=test_update_data)
+    response = client.patch(
+        f"/api/v1/menus/{data_menu}/submenus/7855f909-3be6-4a45-84ed-c72941fe2419", json=test_update_data,
+    )
     assert response.status_code == 404
     assert response.json()["detail"] == "submenu not found"
 
@@ -127,7 +141,9 @@ def test_remove_submenu(result_holder, result_holder_submenu, db: Session = Depe
 def test_remove_submenu_incorrect_id(result_holder, db: Session = Depends(get_db)):
     client = TestClient(app)
     data_menu = result_holder[0]
-    response = client.delete(f"/api/v1/menus/{data_menu}/submenus/7855f909-3be6-4a45-84ed-c72941fe2419")
+    response = client.delete(
+        f"/api/v1/menus/{data_menu}/submenus/7855f909-3be6-4a45-84ed-c72941fe2419",
+    )
     assert response.status_code == 404
     assert response.json()["detail"] == 'submenu not found'
 

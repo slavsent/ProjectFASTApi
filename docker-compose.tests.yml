@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  restoran_db:
+  restoran_pytest:
     container_name: restoran_pytest
     image: postgres:15.1-alpine
     restart: always
@@ -35,9 +35,26 @@ services:
 #      - restoran_network
 #      - test_network
       - another_network
-    depends_on:
-      restoran_pytest:
-        condition: service_healthy
+#    depends_on:
+#      restoran_pytest:
+#        condition: service_healthy
+
+  restoran_redis_pytest:
+    container_name: restoran_redis_pytest
+    image: redis:latest
+    expose:
+      - 6379
+    ports:
+      - "6379:6379"
+    networks:
+      - another_network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
+
+
 
 networks:
 #  test_network:
