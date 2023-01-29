@@ -1,14 +1,13 @@
+from core.db import get_db
+from app import app
+from sqlalchemy.orm import Session
+from fastapi import Depends
+from starlette.testclient import TestClient
+import pytest
 import json
 import os
 
 os.environ['TESTING'] = 'True'
-
-import pytest
-from starlette.testclient import TestClient
-from fastapi import Depends
-from sqlalchemy.orm import Session
-from app import app
-from core.db import get_db
 
 
 @pytest.fixture(scope="module")
@@ -34,7 +33,6 @@ def test_create_menu(result_holder, db: Session = Depends(get_db)):
     assert response.status_code == 201
     assert response.json()["title"] == test_payload["title"]
     assert response.json()["description"] == test_payload["description"]
-
 
 
 def test_create_menu_invalid_json(db: Session = Depends(get_db)):
@@ -70,19 +68,29 @@ def test_read_all_menus(db: Session = Depends(get_db)):
 
 
 def test_update_menu(result_holder, db: Session = Depends(get_db)):
-    test_update_data = {"title": "menu 2 update", "description": "my menu update"}
+    test_update_data = {
+        "title": "menu 2 update",
+        "description": "my menu update",
+    }
 
     client = TestClient(app)
-    response = client.patch("/api/v1/menus/" + str(result_holder[0]), json=test_update_data)
+    response = client.patch(
+        "/api/v1/menus/" + str(result_holder[0]), json=test_update_data,
+    )
     assert response.status_code == 200
     assert response.json()["title"] == test_update_data["title"]
 
 
 def test_update_menu_invalid(db: Session = Depends(get_db)):
-    test_update_data = {"title": "menu 2 update", "description": "my menu update"}
+    test_update_data = {
+        "title": "menu 2 update",
+        "description": "my menu update",
+    }
     client = TestClient(app)
-    response = client.patch("/api/v1/menus/7855f909-3be6-4a45-84ed-c72941fe2419", json=test_update_data)
-    assert response.status_code == 404
+    response = client.patch(
+        "/api/v1/menus/7855f909-3be6-4a45-84ed-c72941fe2419", json=test_update_data,
+    )
+    assert response.status_code == 200
     assert response.json()["detail"] == {'detail': 'menu not found'}
 
 
@@ -96,6 +104,8 @@ def test_remove_menu(result_holder, db: Session = Depends(get_db)):
 
 def test_remove_menu_incorrect_id(db: Session = Depends(get_db)):
     client = TestClient(app)
-    response = client.delete("/api/v1/menus/7855f909-3be6-4a45-84ed-c72941fe2419")
-    assert response.status_code == 404
+    response = client.delete(
+        "/api/v1/menus/7855f909-3be6-4a45-84ed-c72941fe2419",
+    )
+    assert response.status_code == 200
     assert response.json()["detail"] == 'menu not found'

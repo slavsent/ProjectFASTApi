@@ -17,7 +17,7 @@ class DishBaseSchema(BaseModel):
 class ListDishResponse(BaseModel):
     status: str
     results: int
-    notes: List[DishBaseSchema]
+    notes: list[DishBaseSchema]
 
 
 class SubMenuBaseSchema(BaseModel):
@@ -34,7 +34,7 @@ class SubMenuBaseSchema(BaseModel):
 class ListSubMenuResponse(BaseModel):
     status: str
     results: int
-    notes: List[SubMenuBaseSchema]
+    notes: list[SubMenuBaseSchema]
 
 
 class MenuBaseSchema(BaseModel):
@@ -51,4 +51,4 @@ class MenuBaseSchema(BaseModel):
 class ListMenuResponse(BaseModel):
     status: str
     results: int
-    notes: List[MenuBaseSchema]
+    notes: list[MenuBaseSchema]

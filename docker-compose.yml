@@ -25,6 +25,21 @@ services:
       timeout: 5s
       retries: 5
 
+  restoran_redis:
+    container_name: restoran_redis
+    image: redis:latest
+    expose:
+      - 6379
+    ports:
+      - "6379:6379"
+    networks:
+      - restoran_network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 20s
+      retries: 100
+
 
   restoran_app:
     container_name: restoran_app
@@ -46,6 +61,8 @@ services:
     depends_on:
       restoran_db:
         condition: service_healthy
+      restoran_redis:
+        condition: service_healthy
     links:
       - restoran_db
     restart: on-failure
@@ -56,18 +73,3 @@ networks:
 
 volumes:
   postgres_data:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

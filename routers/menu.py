@@ -1,94 +1,33 @@
 from shemas import MenuBaseSchema
-from modeling import models
 from sqlalchemy.orm import Session
-from fastapi import Depends, HTTPException, status, APIRouter, Response
 from core.db import get_db
+from fastapi import Depends, status, APIRouter
+from src.menus import menu_list, menu_create, menu_read, menu_update, menu_delete
 
-router = APIRouter()
+
+router = APIRouter(prefix='/api/v1/menus')
 
 
-@router.get('/')
-def get_menu(db: Session = Depends(get_db)):
-    # skip = (page - 1) * limit
-
-    # menu = db.query(models.Menu).filter(
-    #    models.Menu.title.contains(search)).limit(limit).offset(skip).all()
-    # return {'status': 'success', 'results': len(menu), 'menu': menu}
-    menu = db.query(models.Menu).all()
-    if menu:
-        return menu
-    else:
-        return []
+@router.get('/', status_code=status.HTTP_200_OK)
+async def get_menu(db: Session = Depends(get_db)):
+    return menu_list(db)
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 def create_menu(payload: MenuBaseSchema, db: Session = Depends(get_db)):
-    menu = db.query(models.Menu).filter(models.Menu.title == payload.title).first()
-    if menu:
-        return {"detail": "This menu have"}
-    else:
-        new_menu = models.Menu(title=payload.title, description=payload.description, dishes_count=0)
-        new_menu.submenus_count = 0
-        db.add(new_menu)
-        db.commit()
-        db.refresh(new_menu)
-        return new_menu
+    return menu_create(payload, db)
 
 
-@router.patch('/{menu_id}')
+@router.patch('/{menu_id}', status_code=status.HTTP_200_OK)
 def update_menu(menu_id: str, payload: MenuBaseSchema, db: Session = Depends(get_db)):
-    # try:
-    #    int(menu_id)
-    # except ValueError:
-    #    return {"detail": "menu not found"}
-    # else:
-
-    if menu_id == 'null':
-        return {"detail": "menu not found"}
-    else:
-        menu_query = db.query(models.Menu).get(menu_id)
-        if not menu_query:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={"detail": "menu not found"})
-        else:
-            menu_query.title = payload.title
-            menu_query.description = payload.description
-            db.commit()
-            db.refresh(menu_query)
-            return menu_query
+    return menu_update(menu_id, payload, db)
 
 
-@router.get('/{menu_id}')
+@router.get('/{menu_id}', status_code=status.HTTP_200_OK)
 def get_read(menu_id: str, db: Session = Depends(get_db)):
-    if menu_id == 'null':
-        return {"detail": "menu not found"}
-    else:
-        # try:
-        #    int(menu_id)
-        # except ValueError:
-        #    return {"detail": "menu not found"}
-        # else:
-        menu = db.query(models.Menu).filter(models.Menu.id == menu_id).first()
-        if not menu:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="menu not found")
-        menu = db.query(models.Menu).get(menu_id)
-        return menu
+    return menu_read(menu_id, db)
 
 
-@router.delete('/{menu_id}')
+@router.delete('/{menu_id}', status_code=status.HTTP_200_OK)
 def delete_post(menu_id: str, db: Session = Depends(get_db)):
-    if menu_id == 'null':
-        return {"detail": "menu not found"}
-    else:
-    # try:
-    #    int(menu_id)
-    # except ValueError:
-    #    return {"detail": "menu not found"}
-    # else:
-        menu_query = db.query(models.Menu).filter(models.Menu.id == menu_id)
-        menu = db.query(models.Menu).filter(models.Menu.id == menu_id).first()
-        if not menu:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="menu not found")
-        else:
-            menu_query.delete(synchronize_session=False)
-            db.commit()
-            return {"status": True, "message": "The menu has been deleted"}
+    return menu_delete(menu_id, db)
