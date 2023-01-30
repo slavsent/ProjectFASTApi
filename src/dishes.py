@@ -30,7 +30,7 @@ def dish_list(menu_id: str, submenu_id: str, db: Session = Depends(get_db)):
     ).filter(
         models.DishInSubmenu.submenus == models.SubMenu.id
     ).filter(
-        models.Dish.id == models.DishInSubmenu.dishesn
+        models.Dish.id == models.DishInSubmenu.dishes
     ).all()
     if dish:
         client.setex('dishes', 3600, pickle.dumps(dish))

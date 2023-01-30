@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  restoran_pytest:
-    container_name: restoran_pytest
+  restoran_db:
+    container_name: restoran_db
     image: postgres:15.1-alpine
     restart: always
     volumes:
@@ -29,7 +29,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-
+    hostname: '127.0.0.1'
     command: "pytest -vv"
     networks:
 #      - restoran_network
@@ -39,9 +39,10 @@ services:
 #      restoran_pytest:
 #        condition: service_healthy
 
-  restoran_redis_pytest:
-    container_name: restoran_redis_pytest
+  restoran_redis:
+    container_name: restoran_redis
     image: redis:latest
+    hostname: '127.0.0.1'
     expose:
       - 6379
     ports:
