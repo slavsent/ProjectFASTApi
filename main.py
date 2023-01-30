@@ -1,5 +1,7 @@
 import uvicorn
+import os
 
+os.environ['Local'] = 'True'
 
 if __name__ == '__main__':
     uvicorn.run(
