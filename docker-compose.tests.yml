@@ -8,28 +8,24 @@ services:
     volumes:
       #  - ./pg-data:/var/lib/postgresql/data
       - postgres_data:/var/lib/postgresql/data
+    env_file: .env
     expose:
       - 5432
     ports:
       - "5432:5432"
     networks:
       - another_network
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: space
-      POSTGRES_DB: restoran_pytest
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -q -d restoran_m -U postgres" ]
-      interval: 20s
-      timeout: 5s
-      retries: 5
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -q -d restoran_m -U postgres" ]
+#      interval: 20s
+#      timeout: 5s
+#      retries: 5
 
   test_restoran_app:
     container_name: test_restoran_app
     build:
       context: .
       dockerfile: Dockerfile
-    hostname: '127.0.0.1'
     command: "pytest -vv"
     networks:
 #      - restoran_network
@@ -42,7 +38,6 @@ services:
   restoran_redis:
     container_name: restoran_redis
     image: redis:latest
-    hostname: '127.0.0.1'
     expose:
       - 6379
     ports:

@@ -8,7 +8,13 @@ from setredis import client
 import pickle
 
 
-def submenu_list(menu_id: str, db: Session = Depends(get_db)):
+def submenu_list(menu_id: str, db: Session = Depends(get_db)) -> list:
+    """
+    Возвращает список подменю у определенного меню или пустой лист []
+    :param menu_id: определенное меню по id
+    :param db: открытие сеанса к БД
+    :return: [] или список блюд
+    """
     # try:
     #    int(menu_id)
     # except ValueError:
@@ -34,7 +40,14 @@ def submenu_list(menu_id: str, db: Session = Depends(get_db)):
         return []
 
 
-def submenu_create(menu_id: str, payload: SubMenuBaseSchema, db: Session = Depends(get_db)):
+def submenu_create(menu_id: str, payload: SubMenuBaseSchema, db: Session = Depends(get_db)) -> object:
+    """
+    Создание поменю у определенного меню
+    :param menu_id: определенное меню по id
+    :param payload: данные по меню
+    :param db: открытие сеанса к БД
+    :return: объект с созданным подменю
+    """
     # try:
     #    int(menu_id)
     # except ValueError:
@@ -64,7 +77,15 @@ def submenu_create(menu_id: str, payload: SubMenuBaseSchema, db: Session = Depen
         return new_submenu
 
 
-def submenu_update(menu_id: str, submenu_id: str, payload: SubMenuBaseSchema, db: Session = Depends(get_db)):
+def submenu_update(menu_id: str, submenu_id: str, payload: SubMenuBaseSchema, db: Session = Depends(get_db)) -> object:
+    """
+    Обновление подменю у определенного меню
+    :param menu_id: определенное меню по id
+    :param submenu_id: определенное подменю по id
+    :param payload: новые данные подменю
+    :param db: открытие сеанса к БД
+    :return: объект с обновленным подменю
+    """
     # try:
     #    int(menu_id)
     #    int(submenu_id)
@@ -92,7 +113,14 @@ def submenu_update(menu_id: str, submenu_id: str, payload: SubMenuBaseSchema, db
             return submenu_query
 
 
-def submenu_read(menu_id: str, submenu_id: str, db: Session = Depends(get_db)):
+def submenu_read(menu_id: str, submenu_id: str, db: Session = Depends(get_db)) -> object:
+    """
+    Получение информации по id подменю у определенного меню
+    :param menu_id: определенное меню по id
+    :param submenu_id: определенное подменю по id
+    :param db: открытие сеанса к БД
+    :return: объект с выбранным по id подменю
+    """
     if submenu_id == 'null':
         client.delete('menus')
         client.delete('submenus')
@@ -117,7 +145,14 @@ def submenu_read(menu_id: str, submenu_id: str, db: Session = Depends(get_db)):
         return submenu
 
 
-def submenu_delete(menu_id: str, submenu_id: str, db: Session = Depends(get_db)):
+def submenu_delete(menu_id: str, submenu_id: str, db: Session = Depends(get_db)) -> object:
+    """
+    Уладение подменю у определенного меню с корректиовкой данных в меню и подменю
+    :param menu_id: определенное меню по id
+    :param submenu_id: определенное подменю по id
+    :param db: открытие сеанса к БД
+    :return: объект с информацией, что подменю удалено или сообщеением, что такого подменю нет
+    """
     # try:
     #    int(menu_id)
     #    int(submenu_id)

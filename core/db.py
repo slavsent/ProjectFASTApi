@@ -8,10 +8,32 @@ import os
 from alembic import command
 from alembic.config import Config
 from sqlalchemy_utils import create_database, database_exists
+from dotenv import load_dotenv
 
-local = os.environ.get("Local")
+local = os.environ.get("LOCAL")
 testing = os.environ.get("TESTING")
 
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+# if os.path.exists(dotenv_path):
+load_dotenv(dotenv_path)
+
+if local:
+    database_host = 'localhost'
+else:
+    database_host = 'restoran_db'
+
+database_type = os.environ.get('DB_TYPE')
+database_user = os.environ.get('DB_USER')
+database_pass = os.environ.get('DB_PASS')
+database_name = os.environ.get('DB_NAME')
+database_test = os.environ.get('DB_TEST')
+
+if testing:
+    SQLALCHEMY_DATABASE_URL = f'{database_type}+psycopg2://{database_user}:{database_pass}@{database_host}/{database_name}'
+else:
+    SQLALCHEMY_DATABASE_URL = f'{database_type}+psycopg2://{database_user}:{database_pass}@{database_host}/{database_test}'
+
+"""
 if local:
 
     if testing:
@@ -48,6 +70,8 @@ else:
         # для тестов в docker
         # SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_pytest/restoran_m"
 
+"""
+
 if not database_exists(SQLALCHEMY_DATABASE_URL):
     create_database(SQLALCHEMY_DATABASE_URL)
     # engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
@@ -68,6 +92,10 @@ def create_session() -> scoped_session:
 
 
 def get_db() -> Generator[scoped_session, None, None]:
+    """
+    Создание соединения с БД
+    :return:
+    """
     session = create_session()
     try:
         yield session

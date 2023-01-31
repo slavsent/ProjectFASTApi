@@ -9,30 +9,22 @@ Menu Restoran
 у каждого блюда есть дополнительное поле цена
 при удаление блюда или подменю происходит пересчет количества блюд и подменю в разделах меню и подменю
 #star project:
-python main.py or run main.py or uvicorn app:app --reload --host 0.0.0.0 --port 8000
+python main.py or run main.py в IDE
 # work docker
-Для запуска в файле db.py в каталоге core следует раскоментировать строчку:
-#SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@restoran_db/restoran_m"
-и закоментировать:
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://postgres:space@localhost/restoran_m"
-для запуска в среде python сделать наоборот
 сборка команда
 docker-compose up -d --build
 запуск
 docker-compos up -d
 #pytest
-для запуска тестов используется тестовая база restoran_pytest
-имя базы настраивается в ./core/db.py
+для запуска тестов в IDE: run ./test/testing.py
+для запуска тестов в docker-compose используется тестовая база restoran_pytest
+имя базы настраивается в .env
 если база не существует она создается
+сборка команда
+docker-compose -f docker-compose.tests.yml up -d --build
+запуск
+docker-compos -f docker-compose.tests.yml up -d
+#файл .env
+пример файла: example.env
 
-для тестов docker используется в настройках две сети по необходимости не нужное можно закоментировать
-...
-    networks:
-      - test_network
-      - another_network
 
-networks:
-  test_network:
-      name: restoran_network
-  another_network:
-    name: another_network

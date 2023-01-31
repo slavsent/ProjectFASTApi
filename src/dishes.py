@@ -8,7 +8,14 @@ from setredis import client
 import pickle
 
 
-def dish_list(menu_id: str, submenu_id: str, db: Session = Depends(get_db)):
+def dish_list(menu_id: str, submenu_id: str, db: Session = Depends(get_db)) -> list:
+    """
+    Возвращает список блюд у определенного меню и определеного подменю или пустой лист []
+    :param menu_id: определенное меню по id
+    :param submenu_id: определенное подменю по id
+    :param db: открытие сеанса к БД
+    :return: [] или список блюд
+    """
     # try:
     #    int(menu_id)
     #    int(submenu_id)
@@ -40,7 +47,15 @@ def dish_list(menu_id: str, submenu_id: str, db: Session = Depends(get_db)):
         return []
 
 
-def dish_create(menu_id: str, submenu_id: str,payload: DishBaseSchema, db: Session = Depends(get_db)):
+def dish_create(menu_id: str, submenu_id: str, payload: DishBaseSchema, db: Session = Depends(get_db)) -> object:
+    """
+    Создание блюда у определенного меню и определеного подменю
+    :param menu_id: определенное меню по id
+    :param submenu_id: определенное подменю по id
+    :param payload: данные по блюду
+    :param db: открытие сеанса к БД
+    :return: объект с созданным блюдом
+    """
     # try:
     #    int(menu_id)
     #    int(submenu_id)
@@ -73,7 +88,16 @@ def dish_create(menu_id: str, submenu_id: str,payload: DishBaseSchema, db: Sessi
         return new_dish
 
 
-def dish_update(menu_id: str, submenu_id: str, dish_id: str, payload: DishBaseSchema, db: Session = Depends(get_db)):
+def dish_update(menu_id: str, submenu_id: str, dish_id: str, payload: DishBaseSchema, db: Session = Depends(get_db)) -> object:
+    """
+    Обновление блюда у определенного меню и определеного подменю
+    :param menu_id: определенное меню по id
+    :param submenu_id: определенное подменю по id
+    :param dish_id: определенное блюдо по id
+    :param payload: новые данные блюда
+    :param db: открытие сеанса к БД
+    :return: объект с обновленным блюдом
+    """
     # try:
     #    int(menu_id)
     #    int(submenu_id)
@@ -107,7 +131,15 @@ def dish_update(menu_id: str, submenu_id: str, dish_id: str, payload: DishBaseSc
             return dish_query
 
 
-def dish_read(menu_id: str, submenu_id: str, dish_id: str, db: Session = Depends(get_db)):
+def dish_read(menu_id: str, submenu_id: str, dish_id: str, db: Session = Depends(get_db)) -> object:
+    """
+    Получение информации по id блюда у определенного меню и определеного подменю
+    :param menu_id: определенное меню по id
+    :param submenu_id: определенное подменю по id
+    :param dish_id: определенное блюдо по id
+    :param db: открытие сеанса к БД
+    :return: объект с выбранным по id блюдом
+    """
     if dish_id == 'null':
         client.delete('menus')
         client.delete('submenus')
@@ -134,7 +166,15 @@ def dish_read(menu_id: str, submenu_id: str, dish_id: str, db: Session = Depends
         return dish
 
 
-def dish_delete(menu_id: str, submenu_id: str, dish_id: str, db: Session = Depends(get_db)):
+def dish_delete(menu_id: str, submenu_id: str, dish_id: str, db: Session = Depends(get_db)) -> object:
+    """
+    Уладение блюда у определенного меню и определеного подменю с корректиовкой данных в меню и подменю
+    :param menu_id: определенное меню по id
+    :param submenu_id: определенное подменю по id
+    :param dish_id: определенное блюдо по id
+    :param db: открытие сеанса к БД
+    :return: объект с информацией, что блюдо удалено или сообщеением, что такого блюда нет
+    """
     # try:
     #    int(menu_id)
     #    int(submenu_id)

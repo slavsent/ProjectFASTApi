@@ -1,15 +1,10 @@
 import redis
 import os
 
-
-local = os.environ.get("Local")
-
+local = os.environ.get("LOCAL")
 if local:
-    # для локального использования
-    client = redis.Redis(host='127.0.0.1')
-    # для тестов docker
-    #client = redis.Redis(host='restoran_redis_pytest')
-    #для приложения в docker
-    #client = redis.Redis(host='restoran_redis')
+    redis_hosting = '127.0.0.1'
 else:
-    client = redis.Redis(host='restoran_redis')
+    redis_hosting = 'restoran_redis'
+
+client = redis.Redis(host=redis_hosting)

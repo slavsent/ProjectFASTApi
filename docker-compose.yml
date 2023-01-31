@@ -15,10 +15,7 @@ services:
       - "5432:5432"
     networks:
       - restoran_network
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: space
-      POSTGRES_DB: restoran_m
+    env_file: .env
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -d restoran_m -U postgres" ]
       interval: 20s
